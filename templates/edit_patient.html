@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Edit patient</h2>
+  <form method="post" class="row">
+    <div><label>Name</label><input name="name" value="{{ p.name }}" required></div>
+    <div><label>Phone</label><input name="phone" value="{{ p.phone or '' }}"></div>
+    <div><label>Date of birth</label><input type="date" name="dob" value="{{ p.dob or '' }}"></div>
+    <button>Save</button>
+    <a href="{{ url_for('patients') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

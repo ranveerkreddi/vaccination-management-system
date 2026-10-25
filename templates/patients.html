@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Register patient</h2>
+  <form method="post" class="row">
+    <div><label>Name</label><input name="name" required></div>
+    <div><label>Phone</label><input name="phone" inputmode="tel"></div>
+    <div><label>Date of birth</label><input type="date" name="dob"></div>
+    <button>Add patient</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Patients ({{ patients|length }})</h2>
+  <table>
+    <tr><th>Name</th><th>Phone</th><th>DOB</th><th></th></tr>
+    {% for p in patients %}
+    <tr><td>{{ p.name }}</td><td>{{ p.phone or '-' }}</td><td>{{ p.dob or '-' }}</td>
+      <td>
+        <a href="{{ url_for('edit_patient', pid=p.id) }}"><button type="button" class="ghost">Edit</button></a>
+        <form class="inline" method="post" action="{{ url_for('delete_patient', pid=p.id) }}" onsubmit="return confirm('Delete this patient?')"><button class="danger">Delete</button></form>
+      </td></tr>
+    {% else %}<tr><td colspan="4" class="muted">No patients yet.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

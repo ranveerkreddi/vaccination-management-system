@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stats">
+  <div class="card stat"><b>{{ stats.patients }}</b>Patients</div>
+  <div class="card stat"><b>{{ stats.administered }}</b>Vaccines administered</div>
+  <div class="card stat"><b>{{ stats.upcoming }}</b>Upcoming appointments</div>
+</div>
+<div class="card">
+  <h2>Low stock (10 doses or fewer)</h2>
+  {% if stats.low_stock %}
+  <table><tr><th>Vaccine</th><th>Doses left</th></tr>
+    {% for v in stats.low_stock %}<tr><td>{{ v.name }}</td><td class="low">{{ v.stock }}</td></tr>{% endfor %}
+  </table>
+  {% else %}<p class="muted">All vaccines are well stocked.</p>{% endif %}
+</div>
+{% endblock %}

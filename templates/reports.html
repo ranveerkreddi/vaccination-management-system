@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Doses by vaccine</h2>
+  <table>
+    <tr><th>Vaccine</th><th>In stock</th><th>Administered</th><th>Booked</th><th>Cancelled</th></tr>
+    {% for r in by_vaccine %}
+    <tr><td>{{ r.name }}</td><td>{{ r.stock }}</td><td>{{ r.administered or 0 }}</td><td>{{ r.booked or 0 }}</td><td>{{ r.cancelled or 0 }}</td></tr>
+    {% else %}<tr><td colspan="5" class="muted">No data.</td></tr>{% endfor %}
+  </table>
+</div>
+<div class="card">
+  <h2>Appointments per day (latest 14 days with bookings)</h2>
+  <table>
+    <tr><th>Date</th><th>Appointments</th></tr>
+    {% for r in by_day %}<tr><td>{{ r.appt_date }}</td><td>{{ r.total }}</td></tr>
+    {% else %}<tr><td colspan="2" class="muted">No data.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Book appointment</h2>
+  <form method="post" action="{{ url_for('book') }}" class="row">
+    <div><label>Patient</label>
+      <select name="patient_id" required><option value="">Select</option>
+        {% for p in patients %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
+    <div><label>Vaccine</label>
+      <select name="vaccine_id" required><option value="">Select</option>
+        {% for v in vaccines %}<option value="{{ v.id }}" {{ 'disabled' if v.stock == 0 }}>{{ v.name }} ({{ v.stock }} left)</option>{% endfor %}</select></div>
+    <div><label>Date</label><input type="date" id="appt_date" name="appt_date" min="{{ today }}" value="{{ today }}" required></div>
+    <div><label>Time slot</label>
+      <select name="slot" id="slot" required>{% for s in slots %}<option value="{{ s }}">{{ s }}</option>{% endfor %}</select></div>
+    <button>Book</button>
+  </form>
+  <p class="muted">Each slot holds {{ capacity }} appointments. Remaining places update when you change the date.</p>
+</div>
+<div class="card">
+  <h2>All appointments</h2>
+  <table>
+    <tr><th>Date</th><th>Slot</th><th>Patient</th><th>Vaccine</th><th>Status</th><th></th></tr>
+    {% for a in appointments %}
+    <tr><td>{{ a.appt_date }}</td><td>{{ a.slot }}</td><td>{{ a.patient }}</td><td>{{ a.vaccine }}</td>
+      <td><span class="badge {{ a.status }}">{{ a.status }}</span></td>
+      <td>{% if a.status == 'booked' %}
+        <form class="inline" method="post" action="{{ url_for('administer', aid=a.id) }}"><button class="ghost">Administered</button></form>
+        <form class="inline" method="post" action="{{ url_for('cancel', aid=a.id) }}"><button class="danger">Cancel</button></form>
+      {% endif %}</td></tr>
+    {% else %}<tr><td colspan="6" class="muted">No appointments yet.</td></tr>{% endfor %}
+  </table>
+</div>
+<script>
+  // Show remaining places per slot for the chosen date (uses /api/slots)
+  const dateInput = document.getElementById('appt_date'), slotSelect = document.getElementById('slot');
+  async function refreshSlots() {
+    try {
+      const r = await fetch('/api/slots?date=' + encodeURIComponent(dateInput.value));
+      if (!r.ok) return;
+      const data = await r.json();
+      for (const opt of slotSelect.options) {
+        const left = data.remaining[opt.value];
+        opt.textContent = opt.value + ' (' + left + ' left)';
+        opt.disabled = left <= 0;
+      }
+    } catch (e) { /* availability hints are optional */ }
+  }
+  dateInput.addEventListener('change', refreshSlots);
+  refreshSlots();
+</script>
+{% endblock %}

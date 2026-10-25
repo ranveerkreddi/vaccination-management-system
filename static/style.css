@@ -1,0 +1,30 @@
+:root { --bg:#f6f7f9; --card:#fff; --text:#1b1f24; --muted:#5b6570; --line:#dfe3e8; --brand:#0b6e4f; --err:#b3261e; --ok:#0b6e4f; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#14181c; --card:#1d2329; --text:#e8ecef; --muted:#a3adb7; --line:#2d353d; --brand:#3ec28f; --err:#ff8a80; --ok:#3ec28f; }
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--text); }
+header { background:var(--card); border-bottom:1px solid var(--line); padding:12px 20px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; }
+header h1 { font-size:1.05rem; margin:0; color:var(--brand); }
+nav a { margin-right:14px; text-decoration:none; color:var(--text); font-weight:500; }
+nav a:hover { color:var(--brand); }
+main { max-width:980px; margin:20px auto; padding:0 16px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+h2 { margin-top:0; font-size:1.15rem; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+.stat { text-align:center; } .stat b { display:block; font-size:2rem; color:var(--brand); }
+table { width:100%; border-collapse:collapse; display:block; overflow-x:auto; }
+th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+th { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; }
+form.inline { display:inline; }
+label { display:block; font-size:.85rem; color:var(--muted); margin:8px 0 3px; }
+input, select { padding:8px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--text); font:inherit; max-width:100%; }
+button { padding:8px 14px; border:0; border-radius:6px; background:var(--brand); color:#fff; font:inherit; cursor:pointer; }
+button.danger { background:var(--err); } button.ghost { background:transparent; color:var(--brand); border:1px solid var(--brand); }
+.row { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; }
+.flash { padding:10px 14px; border-radius:6px; margin-bottom:12px; border:1px solid; }
+.flash.ok { color:var(--ok); border-color:var(--ok); } .flash.error { color:var(--err); border-color:var(--err); }
+.badge { padding:2px 8px; border-radius:99px; font-size:.78rem; border:1px solid var(--line); }
+.badge.booked { color:#b26a00; } .badge.administered { color:var(--ok); } .badge.cancelled { color:var(--muted); }
+.muted { color:var(--muted); } .low { color:var(--err); font-weight:600; }
+footer { text-align:center; color:var(--muted); padding:20px; font-size:.85rem; }
