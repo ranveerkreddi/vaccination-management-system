@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: vaccination-management-system
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SEED_DEMO
+        value: "1"
+      - key: DB_PATH
+        value: /tmp/vaccination.db
